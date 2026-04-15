@@ -1,0 +1,2 @@
+# Faro
+Near-duplicate detection
