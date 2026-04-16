@@ -1,0 +1,22 @@
+# Build stage
+FROM golang:1.21-alpine AS builder
+
+WORKDIR /app
+
+# Copy dependency files
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source code
+COPY . .
+
+# Build the worker binary
+RUN CGO_ENABLED=0 GOOS=linux go build -o faro-worker ./cmd/worker/main.go
+
+# Run stage
+FROM alpine:latest
+
+WORKDIR /root/
+COPY --from=builder /app/faro-worker .
+
+CMD ["./faro-worker"]

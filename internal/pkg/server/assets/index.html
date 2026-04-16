@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faro | Resolution Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Faro <span class="badge">Engine</span></h1>
+            <nav>
+                <a href="/api/export" class="btn btn-primary">Export Audit Report</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="stats-grid">
+            <div class="card stat-card">
+                <h3>Total Scanned</h3>
+                <div class="value" id="stat-scanned">0</div>
+            </div>
+            <div class="card stat-card warning">
+                <h3>Potential Duplicates</h3>
+                <div class="value" id="stat-duplicates">0</div>
+            </div>
+            <div class="card stat-card success">
+                <h3>Resolved</h3>
+                <div class="value" id="stat-resolved">0</div>
+            </div>
+        </section>
+
+        <section class="discovery-log">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Live Discovery Log</h2>
+                    <span class="pulse-indicator"></span>
+                    <span class="status">Real-time Stream Active</span>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Match ID</th>
+                                <th>Similarity</th>
+                                <th>Algorithm</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="discovery-body">
+                            <!-- Live updates will appear here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
