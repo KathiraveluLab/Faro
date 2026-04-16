@@ -123,10 +123,6 @@ func (s *Server) handleExport(w http.ResponseWriter, r *http.Request) {
 
 	writer.Write([]string{"Record A", "Record B", "Similarity Score", "Algorithm", "Status", "Raw Metadata"})
 	
-	// Fetch all duplicates from store
-	dups, _ := s.Store.ListRecords() // For demo purpose we iterate and filter
-	// In a real system, we'd have a specific ListDuplicates() method
-	
 	// Sample data for export demo (updated with metadata)
 	writer.Write([]string{"REC001", "REC002", "100.00%", "Levenshtein", "Potential", "{}"})
 	writer.Write([]string{"PAT001", "PAT001-CON", "50.00%", "HierarchicalMetadata", "Conflict", `{"study_instance_uid":"1.2.3.4.5","series":[{"series_instance_uid":"1.2.3.4.5.1","modality":"CT"}]}`})

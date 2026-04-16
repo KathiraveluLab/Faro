@@ -1,12 +1,12 @@
 :root {
-    --bg-dark: #0f1115;
-    --card-bg: #1a1d23;
-    --text-main: #e2e8f0;
-    --text-muted: #94a3b8;
-    --primary: #3b82f6;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --border: #2d3139;
+    --bg-dark: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --primary: #2563eb;
+    --success: #059669;
+    --warning: #d97706;
+    --border: #e2e8f0;
 }
 
 * {
@@ -30,7 +30,7 @@ body {
 
 header {
     background-color: var(--card-bg);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
     padding: 1rem 0;
     margin-bottom: 2rem;
 }
@@ -45,6 +45,7 @@ h1 {
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
+    color: var(--text-main);
 }
 
 .badge {
@@ -84,6 +85,7 @@ h1 {
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .stat-card h3 {
@@ -118,14 +120,14 @@ h1 {
     background-color: var(--success);
     border-radius: 50%;
     margin-right: 0.5rem;
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4);
     animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 10px 0 rgba(16, 185, 129, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4); }
+    70% { transform: scale(1); box-shadow: 0 0 10px 0 rgba(5, 150, 105, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
 }
 
 .status {
@@ -144,6 +146,7 @@ table {
 }
 
 th {
+    background-color: #f1f5f9;
     color: var(--text-muted);
     font-weight: 600;
     font-size: 0.75rem;
@@ -159,7 +162,7 @@ td {
 }
 
 .similarity-badge {
-    background-color: rgba(59, 130, 246, 0.1);
+    background-color: rgba(37, 99, 235, 0.1);
     color: var(--primary);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;

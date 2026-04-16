@@ -6,9 +6,7 @@ import (
 	"faro/internal/pkg/server"
 	"faro/internal/pkg/source"
 	"faro/internal/pkg/storage"
-	"faro/internal/pkg/types"
 	"fmt"
-	"time"
 
 	_ "modernc.org/sqlite"
 )
