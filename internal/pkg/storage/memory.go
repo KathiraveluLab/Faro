@@ -53,6 +53,14 @@ func (m *MemoryStore) ListRecords() ([]types.Record, error) {
 	return records, nil
 }
 
+func (m *MemoryStore) GetDuplicates() ([]types.SimilarityResult, error) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	dups := make([]types.SimilarityResult, len(m.duplicates))
+	copy(dups, m.duplicates)
+	return dups, nil
+}
+
 func (m *MemoryStore) Close() error {
 	return nil
 }

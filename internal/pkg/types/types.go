@@ -18,5 +18,6 @@ type SimilarityResult struct {
 	Score      float64 `json:"score"`      // 0.0 to 1.0
 	Algorithm  string  `json:"algorithm"`
 	IsDuplicate bool    `json:"is_duplicate"`
+	Resolved    bool    `json:"resolved"`
 	Metadata    string  `json:"metadata,omitempty"` // Raw JSON metadata for images
 }

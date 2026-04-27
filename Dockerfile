@@ -22,6 +22,6 @@ COPY --from=builder /app/faro-master .
 COPY --from=builder /app/internal/pkg/server/assets ./internal/pkg/server/assets
 
 # Expose the dashboard port
-EXPOSE 8080
+EXPOSE 8089
 
 CMD ["./faro-master"]

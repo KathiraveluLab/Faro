@@ -100,18 +100,27 @@ func (s *Server) serveWs(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleStats(w http.ResponseWriter, r *http.Request) {
 	records, _ := s.Store.ListRecords()
-	// Simulating duplicate count for demo
+	dups, _ := s.Store.GetDuplicates()
+
+	var potential, resolved int
+	for _, d := range dups {
+		if d.Resolved {
+			resolved++
+		} else {
+			potential++
+		}
+	}
+
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"total_records": len(records),
-		"duplicates":    2,
-		"resolved":      0,
+		"duplicates":    potential,
+		"resolved":      resolved,
 	})
 }
 
 func (s *Server) handleDuplicates(w http.ResponseWriter, r *http.Request) {
-	// In a real system, we'd list from s.Store.GetDuplicates()
-	// For demo purposes, returning an empty list or hardcoded values
-	json.NewEncoder(w).Encode([]types.SimilarityResult{})
+	dups, _ := s.Store.GetDuplicates()
+	json.NewEncoder(w).Encode(dups)
 }
 
 func (s *Server) handleExport(w http.ResponseWriter, r *http.Request) {

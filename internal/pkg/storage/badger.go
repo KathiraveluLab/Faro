@@ -90,6 +90,34 @@ func (s *BadgerStore) ListRecords() ([]types.Record, error) {
 	return records, err
 }
 
+func (s *BadgerStore) GetDuplicates() ([]types.SimilarityResult, error) {
+	var results []types.SimilarityResult
+	err := s.db.View(func(txn *badger.Txn) error {
+		opts := badger.DefaultIteratorOptions
+		opts.PrefetchValues = true
+		it := txn.NewIterator(opts)
+		defer it.Close()
+
+		prefix := []byte("dup:")
+		for it.Seek(prefix); it.ValidForPrefix(prefix); it.Next() {
+			item := it.Item()
+			err := item.Value(func(val []byte) error {
+				var res types.SimilarityResult
+				if err := json.Unmarshal(val, &res); err != nil {
+					return err
+				}
+				results = append(results, res)
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	return results, err
+}
+
 func (s *BadgerStore) Close() error {
 	return s.db.Close()
 }

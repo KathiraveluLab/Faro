@@ -60,7 +60,7 @@ This mode runs the Faro Master engine with an in-memory database and an embedded
 ```bash
 go run cmd/faro/main.go
 ```
-The **Resolution Dashboard** will be available at: `http://localhost:8080`
+The **Resolution Dashboard** will be available at: `http://localhost:8089`
 
 ### Option 2: Distributed Mode (Resilient Cluster)
 This mode uses NATS JetStream for persistent job distribution across multiple worker nodes.

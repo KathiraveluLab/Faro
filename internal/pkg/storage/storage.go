@@ -12,6 +12,8 @@ type Store interface {
 	PutDuplicate(result types.SimilarityResult) error
 	// ListRecords returns a slice of records for processing.
 	ListRecords() ([]types.Record, error)
+	// GetDuplicates retrieves all found duplicates.
+	GetDuplicates() ([]types.SimilarityResult, error)
 	// Close simplifies resource management.
 	Close() error
 }
