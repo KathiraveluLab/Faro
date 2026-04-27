@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/dgraph-io/badger/v4 v4.5.0
-	github.com/gorilla/websocket v1.5.1
+	github.com/gorilla/websocket v1.5.3
 	github.com/nats-io/nats.go v1.31.0
 	modernc.org/sqlite v1.28.0
 )
