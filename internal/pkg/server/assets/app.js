@@ -44,12 +44,43 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><span class="similarity-badge">${(res.Score * 100).toFixed(2)}%</span></td>
             <td>${res.Algorithm}</td>
             <td><span class="status">Potential</span></td>
-            <td><button class="btn btn-primary btn-sm" onclick="alert('Resolution not implemented in prototype')">Resolve</button></td>
+            <td><button class="btn btn-primary btn-sm" onclick="resolvePair('${res.RecordA}', '${res.RecordB}', this)">Resolve</button></td>
         `;
+
+    if (res.Resolved) {
+        row.style.opacity = '0.5';
+        row.querySelector('.status').textContent = 'Resolved';
+        row.querySelector('button').disabled = true;
+    }
         discoveryBody.prepend(row);
     }
 
-    // Initial load
     updateStats();
     setInterval(updateStats, 10000); // Poll every 10 seconds
+
+    window.resolvePair = async (a, b, btn) => {
+        try {
+            const resp = await fetch('/api/resolve', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({record_a: a, record_b: b})
+            });
+
+            if (resp.ok) {
+                // Update UI immediately
+                const row = btn.closest('tr');
+                row.style.transition = 'all 0.5s ease';
+                row.style.opacity = '0.3';
+                row.style.background = '#f0fff0';
+                btn.disabled = true;
+                btn.textContent = 'Resolved';
+                
+                incrementStat(statResolved);
+                let potential = parseInt(statDuplicates.textContent);
+                statDuplicates.textContent = potential - 1;
+            }
+        } catch (err) {
+            console.error('Resolution failed:', err);
+        }
+    };
 });

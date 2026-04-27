@@ -82,6 +82,7 @@ func (s *Server) Start(addr string) error {
 	http.HandleFunc("/api/stats", s.handleStats)
 	http.HandleFunc("/api/duplicates", s.handleDuplicates)
 	http.HandleFunc("/api/export", s.handleExport)
+	http.HandleFunc("/api/resolve", s.handleResolve)
 
 	// Serve static files from the assets directory
 	http.Handle("/", http.FileServer(http.Dir("internal/pkg/server/assets")))
@@ -121,6 +122,50 @@ func (s *Server) handleStats(w http.ResponseWriter, r *http.Request) {
 func (s *Server) handleDuplicates(w http.ResponseWriter, r *http.Request) {
 	dups, _ := s.Store.GetDuplicates()
 	json.NewEncoder(w).Encode(dups)
+}
+
+func (s *Server) handleResolve(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var req struct {
+		RecordA string `json:"record_a"`
+		RecordB string `json:"record_b"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	// Find and update the duplicate
+	dups, _ := s.Store.GetDuplicates()
+	var found *types.SimilarityResult
+	for _, d := range dups {
+		if (d.RecordA == req.RecordA && d.RecordB == req.RecordB) ||
+			(d.RecordA == req.RecordB && d.RecordB == req.RecordA) {
+			found = &d
+			break
+		}
+	}
+
+	if found != nil {
+		found.Resolved = true
+		s.Store.PutDuplicate(*found)
+	} else {
+		// If not found, create a new resolved entry (unlikely but safe)
+		s.Store.PutDuplicate(types.SimilarityResult{
+			RecordA:     req.RecordA,
+			RecordB:     req.RecordB,
+			Resolved:    true,
+			IsDuplicate: true,
+			Algorithm:   "Manual",
+		})
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
 
 func (s *Server) handleExport(w http.ResponseWriter, r *http.Request) {

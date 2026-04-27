@@ -10,12 +10,13 @@ import (
 type MemoryStore struct {
 	mu         sync.RWMutex
 	records    map[string]types.Record
-	duplicates []types.SimilarityResult
+	duplicates map[string]types.SimilarityResult
 }
 
 func NewMemoryStore() *MemoryStore {
 	return &MemoryStore{
-		records: make(map[string]types.Record),
+		records:    make(map[string]types.Record),
+		duplicates: make(map[string]types.SimilarityResult),
 	}
 }
 
@@ -39,7 +40,12 @@ func (m *MemoryStore) GetRecord(id string) (types.Record, error) {
 func (m *MemoryStore) PutDuplicate(result types.SimilarityResult) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	m.duplicates = append(m.duplicates, result)
+	// Canonical key to handle updates (sorted ID pair)
+	key := fmt.Sprintf("%s:%s", result.RecordA, result.RecordB)
+	if result.RecordA > result.RecordB {
+		key = fmt.Sprintf("%s:%s", result.RecordB, result.RecordA)
+	}
+	m.duplicates[key] = result
 	return nil
 }
 
@@ -56,8 +62,10 @@ func (m *MemoryStore) ListRecords() ([]types.Record, error) {
 func (m *MemoryStore) GetDuplicates() ([]types.SimilarityResult, error) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
-	dups := make([]types.SimilarityResult, len(m.duplicates))
-	copy(dups, m.duplicates)
+	dups := make([]types.SimilarityResult, 0, len(m.duplicates))
+	for _, d := range m.duplicates {
+		dups = append(dups, d)
+	}
 	return dups, nil
 }
 
