@@ -3,7 +3,7 @@ module faro
 go 1.25.0
 
 require (
-	github.com/dgraph-io/badger/v4 v4.9.1
+	github.com/dgraph-io/badger/v4 v4.9.2
 	github.com/gorilla/websocket v1.5.3
 	github.com/nats-io/nats.go v1.52.0
 	modernc.org/sqlite v1.50.1
@@ -28,7 +28,6 @@ require (
 	go.opentelemetry.io/otel/metric v1.41.0 // indirect
 	go.opentelemetry.io/otel/trace v1.41.0 // indirect
 	golang.org/x/crypto v0.49.0 // indirect
-	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	google.golang.org/protobuf v1.36.7 // indirect
 	modernc.org/libc v1.72.3 // indirect
