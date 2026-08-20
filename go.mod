@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/dgraph-io/badger/v4 v4.9.4
 	github.com/gorilla/websocket v1.5.3
-	github.com/nats-io/nats.go v1.52.0
+	github.com/nats-io/nats.go v1.53.1
 	modernc.org/sqlite v1.53.0
 )
 
